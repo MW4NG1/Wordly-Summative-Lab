@@ -118,11 +118,17 @@ function displayWord(data) {
   }
   // Display pronunciation audio
   // Checking that the word has pronunciation and that the audio file isn't empty before trying to play it.
-  if (result.phonetics.length > 0 && result.phonetics[0].audio !== "") {
-    // Set the audio source
-    audio.src = result.phonetics[0].audio;
+  if (result.phonetics.length > 0) {
+    // Checks if the first phonetic has an audio file
+    if (result.phonetics[0].audio !=="") {
+        // Set the audio source
+        audio.src = result.phonetics[0].audio;
   } else {
     // Remove the audio if there isnt one
+    audio.removeAttribute("src");
+  }
+  } else {
+    // Remove the audio if there are no phonetics
     audio.removeAttribute("src");
   }
   // Add the searched word to the history
