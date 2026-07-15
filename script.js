@@ -117,19 +117,27 @@ function displayWord(data) {
     synonyms.appendChild(listItem);
   }
   // Display pronunciation audio
-  // Checking that the word has pronunciation and that the audio file isn't empty before trying to play it.
-  if (result.phonetics.length > 0) {
-    // Checks if the first phonetic has an audio file
-    if (result.phonetics[0].audio !=="") {
-        // Set the audio source
-        audio.src = result.phonetics[0].audio;
-  } else {
-    // Remove the audio if there isnt one
-    audio.removeAttribute("src");
+  // Before finding any audio yet
+  let audioFound = false;
+  // Check every phonetic for audio
+  for (let i = 0; i < result.phonetics.length; i++) {
+    // If this phonetic has audio
+    if (result.phonetics[i].audio !== "") {
+      // Set the audio source
+      audio.src = result.phonetics[i].audio;
+      // Reload the audio player
+      audio.load();
+      // We found audio
+      audioFound = true;
+      // Stop the loop
+      break;
+    }
   }
-  } else {
-    // Remove the audio if there are no phonetics
+  // If no audio was found
+  if (!audioFound) {
+    audio.pause();
     audio.removeAttribute("src");
+    audio.load();
   }
   // Add the searched word to the history
   updateHistory(result.word);
