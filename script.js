@@ -32,3 +32,27 @@ searchForm.addEventListener("submit", function (event) {
   // Call the function that searches the API
   fetchWord(searchedWord);
 });
+
+// Fetch word data from the API
+// Function to search for a word
+async function fetchWord(searchedWord) {
+    // Dictionary API URL
+    const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${searchedWord}`;
+    try {
+        // Send a request to the API
+        const response = await fetch(url);
+        // Check if the request was successful
+        if (!response.ok) {
+            errorMessage.textContent = "Word not found. Please try another word.";
+            return;
+        }
+        // Convert the response into JSON
+        const data = await response.json();
+        // Send the data to another function that will display it
+        displayWord(data);
+    }
+    catch (error) {
+        // Display an error message if something goes wrong
+        errorMessage.textContent = "Something went wrong. Please try again.";
+    }
+}
