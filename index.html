@@ -1,47 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WORDLY DICTIONARY</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <!-- Main Content -->
     <main>
-        <h1>WORDLY DICTIONARY</h1>  <!-- Main heading for the dictionary -->
-        <form id="search-form">
-            <!-- Input where one can type a word -->
-            <input  
-            type="text"
-            id="word-input"
-            placeholder="Type a word..."
-            aria-label="Search for a word"
-            required
-            >
-            <!-- Button for searching -->
-             <button type="submit">Search</button>
-        </form>
-        <div id="content">
+      <h1>WORDLY DICTIONARY</h1>
+      <!-- Main heading for the dictionary -->
+      <form id="search-form">
+        <!-- Input where one can type a word -->
+        <input
+          type="text"
+          id="word-input"
+          placeholder="Type a word..."
+          aria-label="Search for a word"
+          required
+        />
+        <!-- Button for searching -->
+        <button type="submit">Search</button>
+      </form>
+      <div id="content">
         <!-- Section for displaying search results -->
-         <section id="results">
-            <h2 id="word"></h2>
-            <p id="pronunciation"></p>
-            <p id="part-of-speech"></p>
-            <p id="definition"></p>
-            <p id="example"></p>
-            <h3>Synonyms</h3>
-            <ul id="synonyms"></ul>
-            <audio id="audio" controls></audio>
-            <p id="error-message"></p>
-         </section>
-         <!-- Section to display search history -->
-          <section id="history">
-            <h2>Search History</h2>
-            <ul id="history-list"></ul>
-          </section>
-          </div>
+        <section id="results">
+          <h2 id="word"></h2>
+          <p id="pronunciation"></p>
+          <p id="part-of-speech"></p>
+          <p id="definition"></p>
+          <p id="example"></p>
+          <h3>Synonyms</h3>
+          <ul id="synonyms"></ul>
+          <audio id="audio" controls></audio>
+          <p id="error-message"></p>
+        </section>
+        <!-- Section to display search history -->
+        <section id="history">
+          <h2>Search History</h2>
+          <ul id="history-list"></ul>
+        </section>
+      </div>
     </main>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
