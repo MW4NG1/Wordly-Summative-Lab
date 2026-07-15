@@ -16,6 +16,7 @@ const audio = document.getElementById("audio");
 const errorMessage = document.getElementById("error-message");
 // Search history list
 const historyList = document.getElementById("history-list");
+const searchHistory = [];
 
 // Add Event listener to the search form
 // Listen for form submission
@@ -23,7 +24,8 @@ searchForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the page from refreshing
   // Get the word entered by the user
   const searchedWord = wordInput.value.trim();
-  if (searchedWord === "") {  // Check if the input is empty
+  if (searchedWord === "") {
+    // Check if the input is empty
     errorMessage.textContent = "Please enter a word.";
     return;
   }
@@ -36,23 +38,110 @@ searchForm.addEventListener("submit", function (event) {
 // Fetch word data from the API
 // Function to search for a word
 async function fetchWord(searchedWord) {
-    // Dictionary API URL
-    const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${searchedWord}`;
-    try {
-        // Send a request to the API
-        const response = await fetch(url);
-        // Check if the request was successful
-        if (!response.ok) {
-            errorMessage.textContent = "Word not found. Please try another word.";
-            return;
-        }
-        // Convert the response into JSON
-        const data = await response.json();
-        // Send the data to another function that will display it
-        displayWord(data);
+  // Dictionary API URL
+  const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${searchedWord}`;
+  try {
+    // Send a request to the API
+    const response = await fetch(url);
+    // Check if the request was successful
+    if (!response.ok) {
+      errorMessage.textContent = "Word not found. Please try another word.";
+      return;
     }
-    catch (error) {
-        // Display an error message if something goes wrong
-        errorMessage.textContent = "Something went wrong. Please try again.";
-    }
+    // Convert the response into JSON
+    const data = await response.json();
+    // Send the data to another function that will display it
+    displayWord(data);
+  } catch (error) {
+    // Display an error message if something goes wrong
+    errorMessage.textContent = "Something went wrong. Please try again.";
+  }
+}
+
+// To display the word information on the page
+// Function to display the API data
+function displayWord(data) {
+  // Get the first object from the API
+  const result = data[0];
+  // Display the searched word
+  word.textContent = result.word;
+  // Clear any previous error message
+  errorMessage.textContent = "";
+  // Display the pronunciation
+  if (result.phonetic) {
+    pronunciation.textContent = "Pronunciation: " + result.phonetic;
+  } else {
+    pronunciation.textContent = "Pronunciation: Not available";
+  }
+  // Display the part of speech
+  if (result.meanings[0].partOfSpeech) {
+    partOfSpeech.textContent =
+      "Part of Speech: " + result.meanings[0].partOfSpeech;
+  } else {
+    partOfSpeech.textContent = "Part of Speech: Not available";
+  }
+  // Display the definition
+  if (result.meanings[0].definitions[0].definition) {
+    definition.textContent =
+      "Definition: " + result.meanings[0].definitions[0].definition;
+  } else {
+    definition.textContent = "Definition: Not available";
+  }
+  // Display an example sentence
+  if (result.meanings[0].definitions[0].example) {
+    example.textContent =
+      "Example: " + result.meanings[0].definitions[0].example;
+  } else {
+    example.textContent = "Example: No example available.";
+  }
+  // Display synonyms
+  // Clear previous synonyms
+  synonyms.innerHTML = "";
+  // Get the synonyms
+  const synonymArray = result.meanings[0].synonyms;
+  // Check if there are any synonyms
+  if (synonymArray && synonymArray.length > 0) {
+    // Loop through each synonym
+    synonymArray.forEach(function (synonym) {
+      // Create a list item
+      const listItem = document.createElement("li");
+      // Add the synonym text
+      listItem.textContent = synonym;
+      // Add it to the list
+      synonyms.appendChild(listItem);
+    });
+  } else {
+    // Create a message if no synonyms exist
+    const listItem = document.createElement("li");
+    listItem.textContent = "No synonyms available.";
+    synonyms.appendChild(listItem);
+  }
+  // Display pronunciation audio
+  // Checking that the word has pronunciation and that the audio file isn't empty before trying to play it.
+  if (result.phonetics.length > 0 && result.phonetics[0].audio !== "") {
+    // Set the audio source
+    audio.src = result.phonetics[0].audio;
+  } else {
+    // Remove the audio if there isnt one
+    audio.removeAttribute("src");
+  }
+  // Add the searched word to the history
+  updateHistory(result.word);
+}
+
+// Updates the search history
+function updateHistory(searchedWord) {
+  // Add the searched word to the array
+  searchHistory.push(searchedWord);
+  // Clear the current history list
+  historyList.innerHTML = "";
+  // Loop through every searched word
+  searchHistory.forEach(function (word) {
+    // Create a new list item
+    const listItem = document.createElement("li");
+    // Display the searched word
+    listItem.textContent = word;
+    // Add the list item to the history section
+    historyList.appendChild(listItem);
+  });
 }
