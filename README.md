@@ -74,7 +74,7 @@ Developed by Mwangi Michael for the Wordly Summative Lab.
 
 1. Download or clone the repository.
 2. Open the project folder in VS Code.
-3. Open **index.html** using Live Server.
+3. Open index.html using Live Server.
 4. Search for any English word to begin using the application.
 
 ## Conclusion
