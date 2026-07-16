@@ -16,6 +16,7 @@ const audio = document.getElementById("audio");
 const errorMessage = document.getElementById("error-message");
 // Search history list
 const historyList = document.getElementById("history-list");
+// Stores users search history
 const searchHistory = [];
 
 // Add Event listener to the search form
@@ -50,7 +51,7 @@ async function fetchWord(searchedWord) {
     }
     // Convert the response into JSON
     const data = await response.json();
-    // Send the data to another function that will display it
+    // Display the fetched word information
     displayWord(data);
   } catch (error) {
     // Display an error message if something goes wrong
@@ -61,7 +62,7 @@ async function fetchWord(searchedWord) {
 // To display the word information on the page
 // Function to display the API data
 function displayWord(data) {
-  // Get the first object from the API
+  // Store the first word returned by the API
   const result = data[0];
   // Display the searched word
   word.textContent = result.word;
@@ -117,7 +118,7 @@ function displayWord(data) {
     synonyms.appendChild(listItem);
   }
   // Display pronunciation audio
-  // Before finding any audio yet
+  // No audio has been found here yet
   let audioFound = false;
   // Check every phonetic for audio
   for (let i = 0; i < result.phonetics.length; i++) {
@@ -143,7 +144,7 @@ function displayWord(data) {
   updateHistory(result.word);
 }
 
-// Updates the search history
+// Function that updates the search history list
 function updateHistory(searchedWord) {
   // Add the searched word to the array
   searchHistory.push(searchedWord);
