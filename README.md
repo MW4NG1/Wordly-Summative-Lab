@@ -62,7 +62,7 @@ The application uses the Free Dictionary API to retrieve information about Engli
 ## Future Improvements
 
 - Allow users to click a word from the search history to search it again.
-- Add a dark mode/light mode option.
+- Have a clear button in the search history section
 - Save search history using Local Storage.
 - Display multiple definitions for each word.
 
