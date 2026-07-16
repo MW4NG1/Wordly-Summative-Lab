@@ -68,7 +68,7 @@ The application uses the Free Dictionary API to retrieve information about Engli
 
 ## Author
 
-Developed by **Mwangi Michael** for the Wordly SPA Summative Lab.
+Developed by Mwangi Michael for the Wordly Summative Lab.
 
 ## How to Run the Project
 
