@@ -1,22 +1,22 @@
 // Select the elements first
-// Search form
+// Fot the search form
 const searchForm = document.getElementById("search-form");
-// Input field
+// For the input part
 const wordInput = document.getElementById("word-input");
-// Result elements
+// Result elements after seraching word
 const word = document.getElementById("word");
 const pronunciation = document.getElementById("pronunciation");
 const partOfSpeech = document.getElementById("part-of-speech");
 const definition = document.getElementById("definition");
 const example = document.getElementById("example");
 const synonyms = document.getElementById("synonyms");
-// Audio player
+// Audio player element
 const audio = document.getElementById("audio");
-// Error message
+// Error message element
 const errorMessage = document.getElementById("error-message");
-// Search history list
+// For the search history list
 const historyList = document.getElementById("history-list");
-// Stores users search history
+// For storing users search history
 const searchHistory = [];
 
 // Add Event listener to the search form
@@ -39,7 +39,7 @@ searchForm.addEventListener("submit", function (event) {
 // Fetch word data from the API
 // Function to search for a word
 async function fetchWord(searchedWord) {
-  // Dictionary API URL
+  // Dictionary API url given
   const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${searchedWord}`;
   try {
     // Send a request to the API
