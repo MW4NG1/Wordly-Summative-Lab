@@ -156,6 +156,14 @@ function updateHistory(searchedWord) {
     const listItem = document.createElement("li");
     // Display the searched word
     listItem.textContent = word;
+    // When the user clocks the word, it searches again
+    listItem.addEventListener("click", function () {
+      // Show the word in input box
+      wordInput.value = word;
+      // Search for the word again
+      fetchWord(word);
+    }
+    );
     // Add the list item to the history section
     historyList.appendChild(listItem);
   });
