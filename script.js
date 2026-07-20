@@ -94,31 +94,54 @@ function displayWord(data) {
       definition.appendChild(def);
     });
   });
-  // Display an example sentence
-  if (result.meanings[0].definitions[0].example) {
-    example.textContent =
-      "Example: " + result.meanings[0].definitions[0].example;
-  } else {
+  // Clear previous examples
+  example.innerHTML = "";
+  // Keep track of whether we found an example
+  let exampleFound = false;
+  // Loop through every meaning
+  result.meanings.forEach(function (meaning) {
+    // Loop through every definition
+    meaning.definitions.forEach(function (item) {
+      // Check if an example exists
+      if (item.example) {
+        // Create a paragraph
+        const exampleText = document.createElement("p");
+        // Display the example
+        exampleText.textContent = "Example: " + item.example;
+        // Add it to the page
+        example.appendChild(exampleText);
+        // Mark that we found one
+        exampleFound = true;
+      }
+    });
+  });
+  // If no examples exist
+  if (!exampleFound) {
     example.textContent = "Example: No example available.";
   }
-  // Display synonyms
   // Clear previous synonyms
   synonyms.innerHTML = "";
-  // Get the synonyms
-  const synonymArray = result.meanings[0].synonyms;
-  // Check if there are any synonyms
-  if (synonymArray && synonymArray.length > 0) {
-    // Loop through each synonym
-    synonymArray.forEach(function (synonym) {
-      // Create a list item
-      const listItem = document.createElement("li");
-      // Add the synonym text
-      listItem.textContent = synonym;
-      // Add it to the list
-      synonyms.appendChild(listItem);
-    });
-  } else {
-    // Create a message if no synonyms exist
+  // Keep track of whether we found synonyms
+  let synonymFound = false;
+  // Loop through every meaning
+  result.meanings.forEach(function (meaning) {
+    // Check if this meaning has synonyms
+    if (meaning.synonyms && meaning.synonyms.length > 0) {
+      // Loop through every synonym
+      meaning.synonyms.forEach(function (synonym) {
+        // Create a list item
+        const listItem = document.createElement("li");
+        // Display the synonym
+        listItem.textContent = synonym;
+        // Add it to the page
+        synonyms.appendChild(listItem);
+      });
+      // We found synonyms
+      synonymFound = true;
+    }
+  });
+  // If no synonyms exist
+  if (!synonymFound) {
     const listItem = document.createElement("li");
     listItem.textContent = "No synonyms available.";
     synonyms.appendChild(listItem);
