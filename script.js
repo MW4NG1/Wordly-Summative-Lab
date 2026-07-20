@@ -76,20 +76,24 @@ function displayWord(data) {
   } else {
     pronunciation.textContent = "Pronunciation: Not available";
   }
-  // Display the part of speech
-  if (result.meanings[0].partOfSpeech) {
-    partOfSpeech.textContent =
-      "Part of Speech: " + result.meanings[0].partOfSpeech;
-  } else {
-    partOfSpeech.textContent = "Part of Speech: Not available";
-  }
-  // Display the definition
-  if (result.meanings[0].definitions[0].definition) {
-    definition.textContent =
-      "Definition: " + result.meanings[0].definitions[0].definition;
-  } else {
-    definition.textContent = "Definition: Not available";
-  }
+  // Clear previous meanings
+  partOfSpeech.innerHTML = "";
+  definition.innerHTML = "";
+  // Loop through every meaning
+  result.meanings.forEach(function (meaning) {
+    // Create a paragraph for the part of speech
+    const part = document.createElement("p");
+    part.textContent = "Part of Speech: " + meaning.partOfSpeech;
+    partOfSpeech.appendChild(part);
+    // Loop through every definition
+    meaning.definitions.forEach(function (item) {
+      // Create a paragraph for the definition
+      const def = document.createElement("p");
+      def.textContent = "Definition: " + item.definition;
+      // Add it to the page
+      definition.appendChild(def);
+    });
+  });
   // Display an example sentence
   if (result.meanings[0].definitions[0].example) {
     example.textContent =
