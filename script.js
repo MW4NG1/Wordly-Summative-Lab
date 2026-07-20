@@ -12,31 +12,33 @@ const example = document.getElementById("example");
 const synonyms = document.getElementById("synonyms");
 // Audio player element
 const audio = document.getElementById("audio");
+const favoriteButton = document.getElementById("favorite-btn");
 // Source element
 const source = document.getElementById("source");
 // Error message element
 const errorMessage = document.getElementById("error-message");
 // For the search history list
 const historyList = document.getElementById("history-list");
-// For storing users search history
-const searchHistory = [];
-
-// Add Event listener to the search form
-// Listen for form submission
-searchForm.addEventListener("submit", function (event) {
-  event.preventDefault(); // Prevent the page from refreshing
-  // Get the word entered by the user
-  const searchedWord = wordInput.value.trim();
-  if (searchedWord === "") {
-    // Check if the input is empty
-    errorMessage.textContent = "Please enter a word.";
-    return;
-  }
-  // Clear any previous error message
-  errorMessage.textContent = "";
-  // Call the function that searches the API
-  fetchWord(searchedWord);
-});
+let currentWord = "";
+// Store Favorite Words
+let favoriteWords =
+  JSON.parse(localStorage.getItem("favorites")) || [];
+  // Add Event listener to the search form
+  // Listen for form submission
+  searchForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the page from refreshing
+    // Get the word entered by the user
+    const searchedWord = wordInput.value.trim();
+    if (searchedWord === "") {
+      // Check if the input is empty
+      errorMessage.textContent = "Please enter a word.";
+      return;
+    }
+    // Clear any previous error message
+    errorMessage.textContent = "";
+    // Call the function that searches the API
+    fetchWord(searchedWord);
+  });
 
 // Fetch word data from the API
 // Function to search for a word
@@ -66,6 +68,7 @@ async function fetchWord(searchedWord) {
 function displayWord(data) {
   // Store the first word returned by the API
   const result = data[0];
+  currentWord = result.word;
   // Display the searched word
   word.textContent = result.word;
   // Clear any previous error message
@@ -180,31 +183,28 @@ function displayWord(data) {
     audio.removeAttribute("src");
     audio.load();
   }
-  // Add the searched word to the history
-  updateHistory(result.word);
-}
+};
 
-// Function that updates the search history list
-function updateHistory(searchedWord) {
-  // Add the searched word to the array
-  searchHistory.push(searchedWord);
-  // Clear the current history list
+// Display favorite words
+function displayFavorites() {
   historyList.innerHTML = "";
-  // Loop through every searched word
-  searchHistory.forEach(function (word) {
-    // Create a new list item
-    const listItem = document.createElement("li");
-    // Display the searched word
-    listItem.textContent = word;
-    // When the user clocks the word, it searches again
+  favoriteWords.forEach(function (favoriteWord) {
+    const listItem =
+      document.createElement("li");
+    listItem.textContent = favoriteWord;
     listItem.addEventListener("click", function () {
-      // Show the word in input box
-      wordInput.value = word;
-      // Search for the word again
-      fetchWord(word);
-    }
-    );
-    // Add the list item to the history section
+      wordInput.value = favoriteWord;
+      fetchWord(favoriteWord);
+    });
     historyList.appendChild(listItem);
   });
 }
+favoriteButton.addEventListener("click", function () {
+  // Don't save duplicates
+  if (!favoriteWords.includes(currentWord)) {
+    favoriteWords.push(currentWord);
+    localStorage.setItem("favorites", JSON.stringify(favoriteWords));
+    displayFavorites();
+  }
+});
+displayFavorites();
