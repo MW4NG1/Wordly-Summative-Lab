@@ -169,9 +169,7 @@ function displayWord(data) {
     if (result.phonetics[i].audio !== "") {
       // Set the audio source
       audio.src = result.phonetics[i].audio;
-      // Reload the audio player
       audio.load();
-      // We found audio
       audioFound = true;
       // Stop the loop
       break;
@@ -183,7 +181,7 @@ function displayWord(data) {
     audio.removeAttribute("src");
     audio.load();
   }
-};
+}
 
 // Display favorite words
 function displayFavorites() {
@@ -200,6 +198,11 @@ function displayFavorites() {
   });
 }
 favoriteButton.addEventListener("click", function () {
+  // Check if a word has been searched
+  if (currentWord === "") {
+    errorMessage.textContent = "Search for a word first.";
+    return;
+  }
   // Don't save duplicates
   if (!favoriteWords.includes(currentWord)) {
     favoriteWords.push(currentWord);
@@ -207,4 +210,3 @@ favoriteButton.addEventListener("click", function () {
     displayFavorites();
   }
 });
-displayFavorites();
