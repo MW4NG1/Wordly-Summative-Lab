@@ -12,6 +12,8 @@ const example = document.getElementById("example");
 const synonyms = document.getElementById("synonyms");
 // Audio player element
 const audio = document.getElementById("audio");
+// Source element
+const source = document.getElementById("source");
 // Error message element
 const errorMessage = document.getElementById("error-message");
 // For the search history list
@@ -116,6 +118,17 @@ function displayWord(data) {
     const listItem = document.createElement("li");
     listItem.textContent = "No synonyms available.";
     synonyms.appendChild(listItem);
+  }
+  // Display the source link
+  if (result.sourceUrls && result.sourceUrls.length > 0) {
+    source.innerHTML =
+      'Source: <a href="' +
+      result.sourceUrls[0] +
+      '" target="_blank">' +
+      result.sourceUrls[0] +
+      "</a>";
+  } else {
+    source.textContent = "Source: Not available";
   }
   // Display pronunciation audio
   // No audio has been found here yet

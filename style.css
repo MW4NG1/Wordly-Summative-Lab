@@ -133,3 +133,16 @@ audio {
   cursor: pointer;
   color: #333;
 }
+
+#source {
+  margin-top: 15px;
+}
+
+#source a {
+  color: #c99700;
+  text-decoration: none;
+}
+
+#source a:hover {
+  text-decoration: underline;
+}
