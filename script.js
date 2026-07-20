@@ -210,3 +210,5 @@ favoriteButton.addEventListener("click", function () {
     displayFavorites();
   }
 });
+// Load favorites when the page opens
+displayFavorites();
